@@ -2,16 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { BrowserRouter, Switch, Route} from 'react-router-dom'
+
+function CadastroVideo(){
+  return(
+    <div>Pagina de cadastro de Videos</div>
+  )
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" component={App} exact/> 
+      <Route path="/Cadastro/Video" component={CadastroVideo} exact/>
+      <Route component={()=> (<div>Erro 404</div>)}/>
+    </Switch>
+  </BrowserRouter>,
+  //<React.StrictMode>
+  //  <App />
+  //</React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
