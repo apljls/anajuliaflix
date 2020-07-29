@@ -1,25 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import { BrowserRouter, Switch, Route} from 'react-router-dom'
-
-function CadastroVideo(){
-  return(
-    <div>Pagina de cadastro de Videos</div>
-  )
-}
+//import App from './App';
+import Home from './pages/Home'
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
+import CadastroVideo from './pages/cadastro/video';
+import PageNotFound from './pages/notFound';
+import CadastroCategoria from './pages/cadastro/categoria';
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/" component={App} exact/> 
+      <Route path="/" component={Home} exact/> 
       <Route path="/Cadastro/Video" component={CadastroVideo} exact/>
-      <Route component={()=> (<div>Erro 404</div>)}/>
+      <Route path="/Cadastro/categoria" component={CadastroCategoria} exact/>
+      <Route component=/*{()=> (<div>Erro 404</div>)}*/ {PageNotFound}/>
     </Switch>
   </BrowserRouter>,
-  //<React.StrictMode>
-  //  <App />
-  //</React.StrictMode>,
   document.getElementById('root')
 );
