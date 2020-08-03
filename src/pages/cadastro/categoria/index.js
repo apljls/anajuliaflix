@@ -1,10 +1,9 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable linebreak-style */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
   const valoresIniciais = {
@@ -13,56 +12,41 @@ function CadastroCategoria() {
     cor: '',
   };
 
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  function HandleChange(infosDoEvento) {
-    // const [getAttribute, value] = infosDoEvento.target
-    setValue(
-      infosDoEvento.target.getAttribute('name'), // getAttribute('name'),
-      infosDoEvento.target.value, // value
-    );
-  }
 
   useEffect(() => {
-    //console.log('Teste useEffect');
-    const URL_TOP = window.location.hostname.includes('localhost') 
+    const URL_TOP = window.location.hostname.includes('localhost')
       ? 'http://localhost:8080/categorias'
-      : 'https://anajuliaflix.herokuapp.com/categorias';
-    // fetch(URL_TOP);
-    fetch(URL_TOP).then(async (respostaDoServer) => {
-      const resposta = await respostaDoServer.json();
-      // setCategorias(resposta); isso tb funciona no lugar do setCategorias abaixo
-      setCategorias([
-        ...resposta,
-      ]);
-    });
-    /*     setTimeout(() => {
-      setCategorias([
-        ...categorias,
-        {   
-          id: 1,
-          nome: 'Front End',
-          descricao: 'Categoria mais ou menos',
-          cor: '#cbd1ff',
-        },
-        {   
-          id: 2,
-          nome: 'BackEnd',
-          descricao: 'Categoria Sensacional',
-          cor: '#cbd1ff',
-        },
-      ]);
-    }, 4 * 1000); */
-  },
-  []);
+      : 'https://devsoutinhoflix.herokuapp.com/categorias';
+    // E a ju ama variáveis
+    fetch(URL_TOP)
+      .then(async (respostaDoServidor) => {
+        const resposta = await respostaDoServidor.json();
+        setCategorias([
+          ...resposta,
+        ]);
+      });
+
+    // setTimeout(() => {
+    //   setCategorias([
+    //     ...categorias,
+    //     {
+    //       id: 1,
+    //       nome: 'Front End',
+    //       descricao: 'Uma categoria bacanudassa',
+    //       cor: '#cbd1ff',
+    //     },
+    //     {
+    //       id: 2,
+    //       nome: 'Back End',
+    //       descricao: 'Outra categoria bacanudassa',
+    //       cor: '#cbd1ff',
+    //     },
+    //   ]);
+    // }, 4 * 1000);
+  }, []);
 
   return (
     <PageDefault>
@@ -74,70 +58,59 @@ function CadastroCategoria() {
       <form onSubmit={function handleSubmit(infosDoEvento) {
         infosDoEvento.preventDefault();
         setCategorias([
-          ...categorias, // Aqui vc pega todos os itens q ja tem em categorias e add no []
-          values, // aqui vc add o novo item no array
+          ...categorias,
+          values,
         ]);
-        setValues(valoresIniciais);
+
+        clearForm();
       }}
       >
-        {/*
-          <div>
-            <label>
-              Nome da Categoria:
-              <input
-                type="text"
-                value= {values.nome}
-                name="nome"
-                onChange={HandleChange}
-              />
-            </label>
-          </div>
-          Componentizando o item acima */ }
 
         <FormField
-          label="Nome da Categoria "
-          type="text"
-          value={values.nome}
+          label="Nome da Categoria"
           name="nome"
-          onChange={HandleChange}
+          value={values.nome}
+          onChange={handleChange}
         />
-        
+
         <FormField
-          label="Descrição "
+          label="Descrição"
           type="textarea"
-          value={values.descricao}
           name="descricao"
-          onChange={HandleChange}
+          value={values.descricao}
+          onChange={handleChange}
         />
-        
+
         <FormField
           label="Cor"
           type="color"
-          value={values.cor}
           name="cor"
-          onChange={HandleChange}
+          value={values.cor}
+          onChange={handleChange}
         />
 
         <Button>
-          Cadatrar
+          Cadastrar
         </Button>
       </form>
-      
+
       {categorias.length === 0 && (
-      <div>
-        Carregando ...
-      </div>
+        <div>
+          {/* Cargando... */}
+          Loading...
+        </div>
       )}
-      
+
       <ul>
         {categorias.map((categoria) => (
-          <li key={`${categoria.nome}`}>
-            {categoria.nome}
+          <li key={`${categoria.titulo}`}>
+            {categoria.titulo}
           </li>
         ))}
       </ul>
+
       <Link to="/">
-        ir pra home
+        Ir para home
       </Link>
     </PageDefault>
   );

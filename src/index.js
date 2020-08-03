@@ -1,21 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import App from './App';
-import Home from './pages/Home'
-import { BrowserRouter, Switch, Route} from 'react-router-dom';
+
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
 import CadastroVideo from './pages/cadastro/video';
-import PageNotFound from './pages/notFound';
 import CadastroCategoria from './pages/cadastro/categoria';
+import PageNotFound from './pages/notFound';
+
+// Desafio master blaster na descrição
+// const Pagina404 = () => (<div>Página 404</div>)
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/" component={Home} exact/> 
-      <Route path="/Cadastro/Video" component={CadastroVideo} exact/>
-      <Route path="/Cadastro/categoria" component={CadastroCategoria} exact/>
-      <Route component=/*{()=> (<div>Erro 404</div>)}*/ {PageNotFound}/>
+      <Route path="/" component={Home} exact />
+      <Route path="/cadastro/video" component={CadastroVideo} />
+      <Route path="/cadastro/categoria" component={CadastroCategoria} />
+      <Route component={PageNotFound} />
+      {/* <Route component={Pagina404} /> */}
     </Switch>
   </BrowserRouter>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
