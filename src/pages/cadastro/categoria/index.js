@@ -32,8 +32,10 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    console.log('Teste useEffect');
-    const URL_TOP = 'http://localhost:8080/categorias';
+    //console.log('Teste useEffect');
+    const URL_TOP = window.location.hostname.includes('localhost') 
+      ? 'http://localhost:8080/categorias'
+      : 'https://anajuliaflix.herokuapp.com/categorias';
     // fetch(URL_TOP);
     fetch(URL_TOP).then(async (respostaDoServer) => {
       const resposta = await respostaDoServer.json();
@@ -41,7 +43,6 @@ function CadastroCategoria() {
       setCategorias([
         ...resposta,
       ]);
-      
     });
     /*     setTimeout(() => {
       setCategorias([
